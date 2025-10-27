@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
-import PlaylistsPage from "../pages/playlists-page.tsx.tsx";
+import { MyPlaylistsPage } from "../pages/my-playlists-page.tsx";
 
 export const Route = createFileRoute('/my-playlists')({
-  component: PlaylistsPage,
+  component: MyPlaylistsPage,
 })
 
 

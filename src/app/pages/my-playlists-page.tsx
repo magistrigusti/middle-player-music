@@ -1,7 +1,7 @@
 
 import { Playlists } from "./playlists-page.tsx.tsx";
 
-function MyPlaylistsPage() {
+export function MyPlaylistsPage() {
   return (
     <>
       <h2>My Play Lists</h2>
@@ -11,4 +11,3 @@ function MyPlaylistsPage() {
   )
 }
 
-export default MyPlaylistsPage;

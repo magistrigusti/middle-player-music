@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { client } from "../../shared/api/client.ts";
 import { useQuery } from "@tanstack/react-query";
 
-function App() {
+export function PlaylistsPage() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -37,4 +37,4 @@ export const Playlists = () => {
   )
 }
 
-export default App
+
