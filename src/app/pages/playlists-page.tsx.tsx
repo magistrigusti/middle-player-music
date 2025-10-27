@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { client } from "./shared/api/client.ts";
+import { client } from "../../shared/api/client.ts";
 import { useQuery } from "@tanstack/react-query";
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
   )
 }
 
-const Playlists = () => {
+export const Playlists = () => {
   const query =  useQuery({
     queryKey: ['playlists'],
     queryFn: () => client.GET('/playlists')
