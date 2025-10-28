@@ -1,5 +1,4 @@
-
-import { Playlists } from "./playlists-page.tsx";
+import { Playlists } from "../features/playlists.tsx";
 
 export function MyPlaylistsPage() {
   return (

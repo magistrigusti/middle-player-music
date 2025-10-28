@@ -26,5 +26,5 @@
     "noUncheckedSideEffectImports": true,
     "noUncheckedIndexedAccess": true
   },
-  "include": ["src"]
+  "include": ["src", "src/pages/playlists-page.tsx"]
 }
