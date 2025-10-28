@@ -11,10 +11,10 @@ export const Header = ({ renderAccountBar }: Props) => (
     <div className={styles.container}>
       <div className={styles.linksBlock}>
         <Link to="/">
-          Main
+          Playlists
         </Link>
 
-        <Link to="/playlists-tith-filters">
+        <Link to="/">
           My Playlists
         </Link>
 
@@ -23,7 +23,7 @@ export const Header = ({ renderAccountBar }: Props) => (
         </Link>
       </div>
 
-      <div>{renderAccountBar}</div>
+      <div>{renderAccountBar()}</div>
     </div>
   </header>
 )
