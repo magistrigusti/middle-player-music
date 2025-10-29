@@ -14,7 +14,7 @@ export const Header = ({ renderAccountBar }: Props) => (
           Playlists
         </Link>
 
-        <Link to="/">
+        <Link to="/my-playlists">
           My Playlists
         </Link>
 

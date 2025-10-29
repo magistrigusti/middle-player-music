@@ -1,0 +1,36 @@
+.pagination {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.pageButton {
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: normal;
+  transition: background 0.2s, color 0.2s;
+  color: white;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  -webkit-transition: background 0.2s, color 0.2s;
+  -moz-transition: background 0.2s, color 0.2s;
+  -ms-transition: background 0.2s, color 0.2s;
+  -o-transition: background 0.2s, color 0.2s;
+}
+
+.pageButtonActive {
+  background: #ececec;
+  font-weight: bold;
+  cursor: default;
+  color: black;
+}
+
+.ellipsis {
+  padding: 4px 10px;
+  user-select: none;
+}
