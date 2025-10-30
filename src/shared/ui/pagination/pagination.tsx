@@ -16,6 +16,7 @@ export const Pagination = ({ current, pagesCount, changePageNumber, isFetching }
         current={current}
         pagesCount={pagesCount}
         onChange={changePageNumber}
+        isFetching={isFetching}
       />
       {isFetching && '⌛️'}
     </div>

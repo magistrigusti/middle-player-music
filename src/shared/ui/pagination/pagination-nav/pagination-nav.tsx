@@ -1,15 +1,18 @@
 import s from './pagination-nav.module.css'
-import { getPaginationPages } from '../utils/get-pagination-pages.ts'
+import { getPaginationPages } from '../utils/get-pagination-pages'
 
 type Props = {
   current: number
   pagesCount: number
-  onChange: (page: number) => void
+  onChange: (page: number) => void;
+  isFetching: boolean;
 }
 
 const SIBLING_COUNT = 1
 
-export const PaginationNav = ({ current, pagesCount, onChange }: Props) => {
+export const PaginationNav = ({
+   current, pagesCount, onChange
+}: Props) => {
   const pages = getPaginationPages(current, pagesCount, SIBLING_COUNT)
 
   return (

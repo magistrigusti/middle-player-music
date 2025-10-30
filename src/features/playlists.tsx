@@ -1,16 +1,28 @@
+import { useState } from 'react';
 import { client } from "../shared/api/client.ts";
 import { useQuery } from "@tanstack/react-query";
+import { Pagination } from "../shared/ui/pagination/pagination.tsx";
 
 export const Playlists = () => {
+  const [page, setPage] = useState(1);
+
   const query = useQuery({
-    queryKey: ['playlists'],
-    queryFn: async () => {
-      const response = await client.GET('/playlists' as unknown as '/playlists');
+    queryKey: ['playlists', page],
+    queryFn: async ({signal}) => {
+      const response = await client.GET('/playlists', {
+        params: {
+          query: {
+            pageNumber: page
+          }
+        },
+        signal
+      });
       if (response.error) {
         throw (response as unknown as { error: Error }).error;
       }
-      return response.data!;
-    }
+      return response.data;
+    },
+    // placeholderData: keepPreviousData,
   });
   
   console.log('status:' + query.status);
@@ -21,7 +33,14 @@ export const Playlists = () => {
 
   return (
     <div>
-      {query.isFetching ? 'time' : ''}
+      <hr />
+
+      <Pagination 
+        pagesCount={query.data.meta.pagesCount}
+        current={page}
+        changePageNumber={setPage}
+        isFetching={query.isFetching}
+      />
 
       <ul>
         {query.data.data.map(playlist => (
