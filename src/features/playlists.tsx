@@ -5,14 +5,16 @@ import { Pagination } from "../shared/ui/pagination/pagination.tsx";
 
 export const Playlists = () => {
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
 
   const query = useQuery({
-    queryKey: ['playlists', page],
+    queryKey: ['playlists', {page, search}],
     queryFn: async ({signal}) => {
       const response = await client.GET('/playlists', {
         params: {
           query: {
-            pageNumber: page
+            pageNumber: page,
+            search
           }
         },
         signal
@@ -33,6 +35,14 @@ export const Playlists = () => {
 
   return (
     <div>
+      <div >
+        <input 
+          value={search}
+          placeholder={'search..'}
+          onChange={(e) => setSearch(e.currentTarget.value)}
+        />
+      </div>
+
       <hr />
 
       <Pagination 
