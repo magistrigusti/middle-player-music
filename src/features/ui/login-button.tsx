@@ -1,13 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
-import { client } from '../../shared/api/client.tsx'
+import { client } from "../../shared/api/client";
 
 export const LoginButton = () => {
+  const callbackUrl = 'http://localhost:5173/oauth/callback';
+
   const mutation = useMutation({
     mutationFn: async ({code}: {code: string}) => {
       const response = await client.POST('/auth/login', {
         body: {
           code: code,
-          redirectUri: "?????",
+          redirectUri: callbackUrl,
           rememberMe: true,
           accessTokenTTL: '1d'
         }
@@ -18,10 +20,15 @@ export const LoginButton = () => {
       }
 
       return response.data;
+    },
+    onSuccess: (data) => {
+      localStorage.setItem('musicfun-refresh-token', data.refreshToken);
+      localStorage.setItem('musicfun-access-token', data.accessToken);
     }
   })
 
   const handleLoginClick = () => {
+    window.addEventListener('message', handleOauthMessage);
     const callbackUrl = 'http://localhost:4000/oauth/callback';
 
     window.open(
@@ -29,6 +36,22 @@ export const LoginButton = () => {
       'apihub-oauth2', 
       'width=500,height=600'
     )
+  }
+
+  const handleOauthMessage = (event: MessageEvent) => {
+    window.removeEventListener('Message', handleOauthMessage)
+    if (event.origin !== document.location.origin) {
+      console.warn('origin not match');
+      return;
+    }
+
+    const code = event.data.code;
+    if (!code) {
+      console.warn('no code in message');
+      return;
+    }
+
+    await mutation.mutate({code});
   }
 
   return(
