@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { client } from "../../shared/api/client";
+import { client } from "../../../shared/api/client";
 
 export const LoginButton = () => {
   const callbackUrl = 'http://localhost:5173/oauth/callback';
@@ -39,7 +39,7 @@ export const LoginButton = () => {
   }
 
   const handleOauthMessage = (event: MessageEvent) => {
-    window.removeEventListener('Message', handleOauthMessage)
+    window.removeEventListener('message', handleOauthMessage)
     if (event.origin !== document.location.origin) {
       console.warn('origin not match');
       return;
