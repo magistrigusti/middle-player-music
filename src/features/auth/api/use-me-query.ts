@@ -2,7 +2,7 @@ import  { useQuery } from '@tanstack/react-query';
 import { client } from '../../../shared/api/client.ts';
 
 
-export const useMe = () => {
+export const useMeQuery = () => {
   const query = useQuery({
     queryKey: ['auth', 'me'],
     queryFn: async () => {

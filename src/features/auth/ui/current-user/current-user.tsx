@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import styles from '../account-bar.module.css';
-import { useMe } from '../../api/use-me.ts';
+import { useMeQuery } from '../../api/use-me-query.ts';
 
 export const CurrentUser = () => {
-  const query = useMe();
+  const query = useMeQuery();
+  if (!query.data) return <span>...</span>
 
   return (
     <div className={styles.meInfoContainer}>
