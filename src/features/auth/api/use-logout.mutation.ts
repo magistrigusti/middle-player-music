@@ -16,7 +16,7 @@ export const useLogoutMutation = () => {
     onSuccess: async () => {
       localStorage.removeItem(localStorageKeys.accessToken);
       localStorage.removeItem(localStorageKeys.refreshToken);
-      queryClient.invalidateQueries({ queryKey: ['auth', 'me'] })
+      queryClient.resetQueries({ queryKey: ['auth', 'me'] })
     },
   });
 
