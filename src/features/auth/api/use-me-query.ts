@@ -1,15 +1,11 @@
-import  { useQuery } from '@tanstack/react-query';
-import { client } from '../../../shared/api/client.ts';
-
+import { useQuery } from '@tanstack/react-query'
+import { getClient } from '@/shared/api/client.ts'
+import { requestWrapper } from '@/shared/api/request-wrapper.ts'
 
 export const useMeQuery = () => {
-  const query = useQuery({
+  return useQuery({
     queryKey: ['auth', 'me'],
-    queryFn: async () => {
-      const clientResponse = await client.GET('/auth/me');
-      return clientResponse.data;
-    }
-  });
-
-  return query;
+    queryFn: () => requestWrapper(getClient().GET('/auth/me')),
+    retry: false,
+  })
 }

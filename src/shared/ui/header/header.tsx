@@ -13,14 +13,6 @@ export const Header = ({ renderAccountBar }: Props) => (
         <Link to="/">
           Playlists
         </Link>
-
-        <Link to="/my-playlists">
-          My Playlists
-        </Link>
-
-        <Link to="/oauth/callback">
-          temp tanstack query
-        </Link>
       </div>
 
       <div>{renderAccountBar()}</div>
