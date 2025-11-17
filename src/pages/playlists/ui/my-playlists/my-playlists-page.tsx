@@ -13,6 +13,7 @@ export function MyPlaylistsPage() {
   if (isLoading) return <span>loading...</span>
 
   if (!data) {
+    // acts like React-Router’s <Navigate> / Next.js <Redirect>
     return <Navigate to="/" replace />
   }
 

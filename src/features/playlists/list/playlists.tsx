@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { client } from "../shared/api/client.ts";
+import { client } from "../../../shared/api/client.ts";
 import { useQuery } from "@tanstack/react-query";
-import { Pagination } from "../shared/ui/pagination/pagination.tsx";
+import { Pagination } from "../../../shared/ui/pagination/pagination.tsx";
 
 export const Playlists = () => {
   const [page, setPage] = useState(1);
