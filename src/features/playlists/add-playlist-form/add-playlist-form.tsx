@@ -1,57 +1,104 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { components } from '@/shared/api'
-import { getClient } from '@/shared/api'
-import { requestWrapper } from '@/shared/api/request-wrapper.ts'
-import styles from './add-playlist-form.module.css'
+import { useEffect } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-export type CreatePlaylistRequestPayload = components['schemas']['CreatePlaylistRequestPayload']
+import { getClient } from '../../../shared/api/client'
+import type { components } from '../../../shared/api/schema'
+import { requestWrapper } from '../../../shared/api/request-wrapper.ts'
+import { queryErrorHandlerForRHFFactory } from '../../../shared/api/query-error-handler-for-rhf-factory.ts'
 
-export const AddPlaylistForm = () => {
-  const queryClient = useQueryClient()
+type Props = {
+  classNames: string
+  playlostId: string | null
+  onCancelEditing: () => void
+}
+
+type UpdatePlaylistRequestPayload = components['schema']['UpdatePlaylistRequestPayload'];
+
+export const EditPlaylistForm = ({ playlistId, onCancelEditing, classNames }: Props) => {
+  const queryClient = useQueryClient();
+
+  const { data: playlistResp, isPending: isPlaylistPending } = useQuery({
+    queryKey: ['playlists', 'details', playlistId],
+    queryFn: ({ signal }) =>
+      getClient().GET('/playlists/{playlistId}', {
+        params: { path: { playlistId: playlistId! }},
+        signal,
+      }),
+    enabled: Boolean(playlistId),
+  })
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitting },
-  } = useForm<CreatePlaylistRequestPayload>({
-    defaultValues: { title: '', description: '' },
+    setError,
+    formState: { isSubmitting, errors },
+  } = useForm<UpdatePlaylistRequestPayload>({
+    defaultValues: { title: '', description: ''},
   })
 
-  const { mutate } = useMutation({
-    mutationFn: (body: CreatePlaylistRequestPayload) => requestWrapper(getClient().POST('/playlists', { body })),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['playlists'] })
-      reset()
-    },
-    onError: (err: unknown) => {
-      console.error(err)
-      alert(JSON.stringify(err))
-      throw err
-    },
-    meta: { globalErrorHandler: 'on' },
+  useEffect(() => {
+    if (playlistResp?.data) {
+      const { title = '', description = ''} = playlistResp.data.data.attributes
+      reset({ title, description })
+    }
+  }, [playlistResp, reset]);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (body: UpdatePlaylistRequestPayload) => 
+      requestWrapper(
+        getClient().PUT('/playlists/{playlistId}', {
+          body: { ...body, tagIds: [] },
+          params: { path: { playlistId: playlistId! }},
+        }),
+      ),
+     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['playlists'],
+      });
+      onCancelEditing?.();
+     },
+     onError: queryErrorHandleForRHFFactory({ setError }), 
   })
 
-  const onSubmit: SubmitHandler<CreatePlaylistRequestPayload> = (data) => {
-    mutate(data)
+  const onSubmit: SubmitHandler<UpdatePlaylistRequestPayload> = (values) => {
+    if (!playlistId) return;
+    mutate(values)
   }
 
+  if (!playlistId) return null
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <h2>Add a New Playlist</h2>
+    <form
+      className={classNames}
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <h2>Редактировать плейлист</h2>
 
       <p>
-        <input {...register('title', { required: true })} placeholder="Title" disabled={isSubmitting} />
+        <label>
+          <input 
+            { ...register('title')}
+            placeholder="Title"
+            disabled={
+              isPending || isPlaylistPending || isSubmitting
+            }
+          />
+        </label>
       </p>
 
-      <div>
-        <input {...register('description')} placeholder="Description" disabled={isSubmitting} />
-      </div>
+      {errors.title && <p>{errors.title.message}</p>}
 
-      <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Creating…' : 'Create Playlist'}
-      </button>
+      <p>
+        <label>
+          <textarea 
+            {...register('description')}
+            placeholder="Description"
+            disabled={isPending || is}
+          />
+        </label>
+      </p>
     </form>
   )
 }
