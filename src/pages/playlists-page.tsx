@@ -7,7 +7,7 @@ export function PlaylistsPage() {
     <div>
       <h2>Allodium Sounds</h2>
       
-       <Playlists /> 
+       <Playlists isSearchActive={true} /> 
     </div>
   )
 }
