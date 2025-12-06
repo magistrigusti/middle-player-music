@@ -1,11 +1,11 @@
-import { useMeQuery } from '../api/use-me-query.ts';
-import { CurrentUser } from './current-user.tsx';
-import { LoginButton } from './login-button.tsx';
+import { useMeQuery } from '../api/use-me-query.ts'
+import { CurrentUser } from './current-user/current-user.tsx'
+import { LoginButton } from './login-button.tsx'
 
 export const AccountBar = () => {
+  const query = useMeQuery()
 
-  const query = useMeQuery();
-  if (query.isPending) return <span></span>
+  if (query.isPending) return <></>
 
   return (
     <div>

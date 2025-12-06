@@ -1,7 +1,10 @@
-import { useLogout } from '@/features/auth/ui/logout-button/use-logout.ts'
+import { useLogoutMutation } from '../api/use-logout-mutation.tsx'
 
 export const LogoutButton = () => {
-  const { logout: handleLogoutClick } = useLogout()
+  const mutation = useLogoutMutation()
 
+  const handleLogoutClick = () => {
+    mutation.mutate()
+  }
   return <button onClick={handleLogoutClick}>Logout</button>
 }
