@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { getClient } from '../../../shared/api/client'
-import type { components } from '../../../shared/api/schema'
+import { getClient } from '../../../shared/api/client.ts'
+import type { components } from '../../../shared/api/schema.ts'
 import { requestWrapper } from '../../../shared/api/request-wrapper.ts'
 import { queryErrorHandlerForRHFFactory } from '../../../shared/api/query-error-handler-for-rhf-factory.ts'
 
